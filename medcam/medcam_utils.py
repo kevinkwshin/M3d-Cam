@@ -20,7 +20,9 @@ def save_attention_map(filename, attention_map, heatmap, raw_input):
     dim = len(attention_map.shape)
     attention_map = normalize(attention_map.astype(np.float))
     attention_map = generate_attention_map(attention_map, heatmap, dim, raw_input)
+#     raw_input = np.array(raw_input)
     _save_file(filename, attention_map, dim)
+#     _save_file(filename+'image', raw_input, dim)
 
 def generate_attention_map(attention_map, heatmap, dim, raw_input):
     if dim == 2:
@@ -45,6 +47,7 @@ def generate_gcam2d(attention_map, raw_input):
     else:
         attention_map = _resize_attention_map(attention_map, MIN_SHAPE)
         attention_map = cm.jet_r(attention_map)[..., :3] * 255.0
+    
     return np.uint8(attention_map)
 
 def generate_guided_bp2d(attention_map):
